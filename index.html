@@ -1,16 +1,31 @@
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Itim&display=swap');
+      </style>
     <link rel="stylesheet" href="./style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <title>Stack Game</title>
   </head>
   <body>
     <div id="app"></div>
-    <canvas class = "threeJs"> </canvas>
+    <canvas class="threeJs"></canvas>
+
+    <div class="bungee-regular heading" id="Title"> Stacks</div>
+    
+    <button class="bungee-regular startB" id="startButton" onclick="buttonAction()"> PLAY </button>  
+    <div class="bungee-regular scoreDisplay" id="scoreM"> Score: 0</div>
+
+    <div class="bungee-regular gameOver" id="Card">
+      <h2 class="bungee-regular menu-title">Game Over</h2>
+      <p class="bungee-regular menu-item" id="Score Final">Total Score: 45</p>
+      <button class="bungee-regular endB" id="startButton" onclick="ResetScene()"> Retry </button>
+    </div> 
+
     <script type="module" src="/main.js"></script>
-    <div> "Click to Start" </div>
   </body>
 </html>

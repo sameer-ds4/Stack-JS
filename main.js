@@ -46,6 +46,7 @@ function initGame()
 
 
   const canvas = document.querySelector("canvas.threeJs");
+  canvas.style.backgroundColor = 'white';
 
 //Declaring Renderer
   renderer = new THREE.WebGLRenderer
@@ -61,6 +62,7 @@ function initGame()
   renderer.setSize(window.innerWidth, window.innerHeight);
   const maxPixelRatio = Math.min(window.devicePixelRatio, 2);
   renderer.setPixelRatio(maxPixelRatio);
+  renderer.setClearColor(0xffe4c4, 1);
   RenderScene();
 }
 
@@ -81,6 +83,7 @@ function renderLoop()
     {
       gameStart = false;
       MissBlock();
+      GameOver();
     }
     // controls.update();
     RenderScene();
@@ -122,10 +125,14 @@ function AddOverHang(x, z, width, depth)
 function GenerateBox(x, y, z, width, depth, falls)
 {
   const geometry = new THREE.BoxGeometry(width, boxHeight, depth);
-  console.log(30 + stack.length * 4);
-  const color = new THREE.Color(`hsl(${30 + stack.length * 4}, 100%, 50%)`);
+  // console.log(30 + stack.length * 4);
+  // const color = new THREE.Color(`hsl(${30 + stack.length * 4}, 100%, 50%)`);
+  const color = new THREE.Color(`hsl(${(30 + stack.length * 4) % 360}, 100%, 50%)`);
+
   const material = new THREE.MeshLambertMaterial({color});
   const mesh = new THREE.Mesh(geometry, material);
+  // const material = new THREE.PointsMaterial({size : 0.5});
+  // const mesh = new THREE.Points(geometry, material);
   mesh.position.set(x, y, z);
   scene.add(mesh);
 
@@ -152,6 +159,7 @@ window.addEventListener("click", () =>
 {
   if(gameStart)
   {
+    
     const topLayer = stack[stack.length - 1];
     const previousLayer = stack[stack.length - 2];
 
@@ -165,6 +173,8 @@ window.addEventListener("click", () =>
 
     if(overLapSize > 0)
     {
+      ScoreUpdater();
+
       const newWidth = direction == "x" ? overLapSize : topLayer.width;
       const newDepth = direction == "z" ? overLapSize : topLayer.depth;
 
@@ -201,10 +211,34 @@ window.addEventListener("click", () =>
   }
   else
   {
-    gameStart = true;
-    renderer.setAnimationLoop(renderLoop);
+    // gameStart = true;
+    // renderer.setAnimationLoop(renderLoop);
   }
 });
+
+let _score = 0;
+function ScoreUpdater()
+{
+  _score++;
+  document.getElementById("scoreM").innerText = "Score: " + _score;
+}
+
+function GameOver()
+{
+  document.getElementById("scoreM").style.display = "none";
+  document.getElementById("Score Final").innerText = "Total Score: " + _score;
+  document.getElementById("Card").style.display = "flow";
+}
+
+export function buttonAction()
+{
+  gameStart = true;
+  renderer.setAnimationLoop(renderLoop);
+  document.getElementById("startButton").style.display = "none";
+  document.getElementById("Title").style.display = "none";
+  document.getElementById("scoreM").style.display = "flow";
+}
+window.buttonAction = buttonAction;
 
 window.addEventListener("resize", () => 
 {
