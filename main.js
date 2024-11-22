@@ -11,6 +11,7 @@ let overHangs = [];
 const boxHeight = 1;
 
 let gameStart = false;
+let colorVal_Main;
 
 
 window.focus();
@@ -22,8 +23,9 @@ function initGame()
   world = new CANNON.World();
   world.gravity.set(0, -9.81, 0);
 
+  colorVal_Main = Math.random() * 360;
 
-  AddLayer(0, 0, originalBoxSize, originalBoxSize);
+  AddLayer(0, 0, originalBoxSize, originalBoxSize, "x");
 
   AddLayer(-10, 0, originalBoxSize, originalBoxSize, "x");
 
@@ -127,7 +129,7 @@ function GenerateBox(x, y, z, width, depth, falls)
   const geometry = new THREE.BoxGeometry(width, boxHeight, depth);
   // console.log(30 + stack.length * 4);
   // const color = new THREE.Color(`hsl(${30 + stack.length * 4}, 100%, 50%)`);
-  const color = new THREE.Color(`hsl(${(30 + stack.length * 4) % 360}, 100%, 50%)`);
+  const color = new THREE.Color(`hsl(${(colorVal_Main + stack.length * 4) % 360}, 100%, 50%)`);
 
   const material = new THREE.MeshLambertMaterial({color});
   const mesh = new THREE.Mesh(geometry, material);
